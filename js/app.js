@@ -1,11 +1,24 @@
 
+// Spinner  function
+const toggleSpinner = displayStyle => {
+    document.getElementById('spinner').style.display = displayStyle;
+}
+
+// No Results Found mesaage toggler function
+const toggleNoResult = displayStyle => {
+    document.getElementById('no-result').style.display = displayStyle;
+};
+toggleSpinner('none');
+toggleNoResult('none');
+
+
 // book search function
 const searchBook = () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
 
-    // clear input field
-    searchField.value = '';
+    toggleSpinner('block');
+    toggleNoResult('none');
 
 
     // load data
@@ -28,23 +41,10 @@ const displaySearchResult = (docs, searchLength) => {
 
     // checking whether the search result is 0 or not
     if (docs.length == 0) {
-        // console.log('No Result Found');
-
-
-        const noResult = document.getElementById('no-result');
-        const h1 = document.createElement('h1');
 
         toggleNoResult('block');
-        // toggleSearchResult('none')
-
-        noResult.textContent = '';
-
-
-        h1.innerHTML = `
-        <h1>No Results Found</h1>
-    `;
-        noResult.appendChild(h1);
     };
+
 
     // looping on array docs by using forEach
     docs.forEach(doc => {
@@ -56,10 +56,10 @@ const displaySearchResult = (docs, searchLength) => {
             <div class="flex justify-center">
                 <img alt="Image Not Available" src="https://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg" >
             </div>
-            <h1><span class="font-semibold">Book Title:</span>  ${doc.title}</h1>
-            <p><span class="font-semibold">Author Name:</span> ${doc.author_name}</p>
-            <p><span class="font-semibold">Publisher:</span>  ${doc.publisher}</p>
-            <p><span class="font-semibold">First Published:</span> ${doc.first_publish_year}</p>
+            <h1><span class="font-semibold">Book Title:</span>  ${doc.title ? doc.title : 'Not Available'}</h1>
+            <p><span class="font-semibold">Author Name:</span> ${doc.author_name ? doc.author_name : 'Not Available'}</p>
+            <p><span class="font-semibold">Publisher:</span>  ${doc.publisher ? doc.publisher : 'Not Available'}</p>
+            <p><span class="font-semibold">First Published:</span> ${doc.first_publish_year ? doc.first_publish_year : 'Not Available'}</p>
         </div>
         `;
         searchResult.appendChild(div);
@@ -67,7 +67,10 @@ const displaySearchResult = (docs, searchLength) => {
 
 
 
+
     });
+    toggleSpinner('none');
+
 
     // displaying search count
     const div = document.createElement('div');
@@ -79,10 +82,5 @@ const displaySearchResult = (docs, searchLength) => {
     `;
     searchCount.appendChild(div);
 
-};
-
-// No Results Found mesaage toggler function
-const toggleNoResult = displayStyle => {
-    document.getElementById('no-result').style.display = displayStyle;
 };
 
