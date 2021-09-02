@@ -68,7 +68,7 @@ const displaySearchResult = (docs, searchLength) => {
             </div>
             <h1><span class="font-semibold">Book Title:</span>  ${doc.title ? doc.title : 'Not Available'}</h1>
             <p><span class="font-semibold">Author Name:</span> ${doc.author_name.slice(0, 150) ? doc.author_name : 'Not Available'}</p>
-            <p><span class="font-semibold">Publisher:</span>  ${doc.publisher ? doc.publisher : 'Not Available'}</p>
+            <p><span class="font-semibold">Publisher:</span>  ${doc.publisher.slice(0, 150) ? doc.publisher : 'Not Available'}</p>
             <p><span class="font-semibold">First Published:</span> ${doc.first_publish_year ? doc.first_publish_year : 'Not Available'}</p>
         </div>
         `;
