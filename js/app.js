@@ -8,8 +8,14 @@ const toggleSpinner = displayStyle => {
 const toggleNoResult = displayStyle => {
     document.getElementById('no-result').style.display = displayStyle;
 };
+
+// Book Found toggler function
+const bookFoundToggler = displayStyle => {
+    document.getElementById('search-count').style.display = displayStyle;
+};
 toggleSpinner('none');
 toggleNoResult('none');
+bookFoundToggler('none')
 
 
 // book search function
@@ -19,6 +25,8 @@ const searchBook = () => {
 
     toggleSpinner('block');
     toggleNoResult('none');
+    bookFoundToggler('none')
+
 
 
     // load data
@@ -40,9 +48,11 @@ const displaySearchResult = (docs, searchLength) => {
 
 
     // checking whether the search result is 0 or not
-    if (docs.length == 0) {
+    if (docs.length === 0) {
 
         toggleNoResult('block');
+        bookFoundToggler('block')
+
     };
 
 
@@ -63,6 +73,7 @@ const displaySearchResult = (docs, searchLength) => {
         </div>
         `;
         searchResult.appendChild(div);
+        bookFoundToggler('block')
         toggleNoResult('none');
 
 
@@ -76,7 +87,7 @@ const displaySearchResult = (docs, searchLength) => {
     const div = document.createElement('div');
 
     div.innerHTML = `
-        <h1>Search Count: ${searchLength} </h1>
+        <h1>Book Found: ${searchLength} </h1>
 
     </div>
     `;
