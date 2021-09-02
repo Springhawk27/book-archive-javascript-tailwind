@@ -1,12 +1,15 @@
 
+// book search function
 const searchBook = () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
 
-
     // // clear input field
     searchField.value = '';
 
+    if (searchText == '') {
+        displayEmptyMessage();
+    }
 
     // load data
     const url = `http://openlibrary.org/search.json?q=${searchText}`;
@@ -14,76 +17,45 @@ const searchBook = () => {
         .then(response => response.json())
         .then(data => displaySearchResult(data.docs))
 
-    if (searchText == '') {
-        displayEmptyMessage();
-
-    }
-    else {
-
-        // load data
-        const url = `http://openlibrary.org/search.json?q=${searchText}`;
-        fetch(url)
-            .then(response => response.json())
-            .then(data => displaySearchResult(data.docs))
-    }
-
 }
-
-const displayEmptyMessage = () => {
-    const emptySearch = document.getElementById('empty-search');
-    toggleSearchResult('block');
-
-    emptySearch.textContent = '';
-    const h1 = document.createElement('h1');
-
-    h1.innerHTML = `
-        <h1>Please enter some text!!!</h1>
-    `;
-    emptySearch.appendChild(h1);
-
-
-
-}
-const toggleSearchResult = displayStyle => {
-    document.getElementById('empty-search').style.display = displayStyle;
-}
-
-// const loadBook = searchText => {
-//     const url = `http://openlibrary.org/search.json?q=${searchText}`;
-//     fetch(url)
-//         .then(response => response.json())
-//         // .then(data => displayDocs(data.docs))
-//         .then(data => console.log(data.docs))
-
-// }
-// loadBook('javascript');
-
-
-// const displayDocs = docs => {
-//     console.log(docs);
-// }
 
 
 const displaySearchResult = docs => {
-    console.log(docs);
 
     const searchResult = document.getElementById('search-result');
     const searchCount = document.getElementById('search-count');
-    // searchResult.innerHTML = '';
+
     searchResult.textContent = '';
     searchCount.textContent = '';
 
-    // if (searchText == '') {
 
-    // }
+    if (docs.length == 0) {
+        // console.log('No Result Found');
 
-    // else {
+
+        const noResult = document.getElementById('no-result');
+        const h1 = document.createElement('h1');
+
+        toggleNoResult('block');
+        // toggleSearchResult('none')
+
+        noResult.textContent = '';
+
+
+        h1.innerHTML = `
+        <h1>No Results Found</h1>
+    `;
+        noResult.appendChild(h1);
+    }
+
+
     docs.forEach(doc => {
         // console.log(docs.length);
 
         // console.log(docs);
 
         const div = document.createElement('div');
+
         // div.classList.add('');
 
         div.innerHTML = `
@@ -100,11 +72,13 @@ const displaySearchResult = docs => {
         
         `;
         searchResult.appendChild(div);
-        toggleSearchResult('none')
+        // toggleSearchResult('none')
+        toggleNoResult('none');
+
 
 
     });
-    // }
+
     const div = document.createElement('div');
 
     div.innerHTML = `
@@ -116,11 +90,29 @@ const displaySearchResult = docs => {
 
 }
 
+displaying message if input is empty
+const displayEmptyMessage = () => {
+    const emptySearch = document.getElementById('empty-search');
+    toggleSearchResult('block');
+    toggleNoResult('none');
 
-/* <div onclick="loadMealDetail(${meal.idMeal})" class="card h-100">
-<img src="${meal.strMealThumb}" class="card-img-top" alt="...">
-<div class="card-body">
-    <h5 class="card-title">${meal.strMeal}</h5>
-    <p class="card-text">${meal.strInstructions.slice(0, 250)}</p>
-</div>
-</div> */
+
+    emptySearch.textContent = '';
+    const h1 = document.createElement('h1');
+
+    h1.innerHTML = `
+        <h1>Please enter some text!!!</h1>
+    `;
+    emptySearch.appendChild(h1);
+
+}
+
+
+const toggleSearchResult = displayStyle => {
+    document.getElementById('empty-search').style.display = displayStyle;
+}
+
+const toggleNoResult = displayStyle => {
+    document.getElementById('no-result').style.display = displayStyle;
+}
+
